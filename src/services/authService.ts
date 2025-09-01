@@ -5,7 +5,7 @@ import prisma from '../prisma/client';
 import { JWT_SECRET, REFRESH_TOKEN_EXPIRY } from '../config/env';
 
 function generateAccessToken(userId: string, role: string) {
-  return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: '15m' });
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '15m' });
 }
 
 function generateRefreshToken() {
