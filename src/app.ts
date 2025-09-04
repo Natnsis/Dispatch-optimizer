@@ -1,5 +1,6 @@
 import express from "express";
 import adminAuthRoutes from "./routes/adminAuth";
+import adminUsersRoutes from "./routes/adminUsers";
 import cors from "cors";
 
 const app = express();
@@ -12,5 +13,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/admin", adminAuthRoutes);
+app.use("/admin/users", adminUsersRoutes);
 
 export default app;

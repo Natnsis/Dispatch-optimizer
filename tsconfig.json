@@ -12,6 +12,10 @@
   "lib": ["es2020"],
   "moduleResolution": "node",
   "types": ["node"],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./src/types"
+  ],
   "esModuleInterop": true,
     // For nodejs:
     // "lib": ["esnext"],
@@ -42,7 +46,7 @@
   // "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-  "skipLibCheck": true,
-  "allowImportingTsExtensions": true
-  }
+  "skipLibCheck": true
+  },
+  "include": ["src"]
 }
