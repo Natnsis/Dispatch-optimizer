@@ -5,21 +5,63 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+enum ROLE {
+  Admin
+  Dispatcher
 }
 
-model Post {
-  id       Int    @id @default(autoincrement())
-  title    String
-  content  String?
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId Int
+enum STATUS {
+  Pending
+  Executed
 }
+
+model User {
+  id String @id @default(uuid())
+  fName String? 
+  LName String?
+  username String
+  password String
+  role String
+  districtId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  district District?
+}
+
+model District {
+  id String @id @default(uuid())
+  name String
+  latitude Float 
+  longitude Float
+  dispatcherId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  report Report[]
+  insight Insight[]
+  user User @relation(fields: [dispatcherId], references: [id])
+}
+
+model Report {
+  id String @id @default(uuid())
+  districtId String
+  timeStamp DateTime
+  congestionLevel String
+  incidents String
+  notes String
+  district District @relation(fields: [districtId], references: [id])
+}
+
+model Insight {
+  id String @id @default(uuid())
+  districtId String
+  insight String
+  status STATUS
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  district District @relation(fields: [districtId], references: [id])
+}
+
