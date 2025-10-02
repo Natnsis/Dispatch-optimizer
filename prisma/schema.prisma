@@ -22,10 +22,11 @@ enum STATUS {
 model User {
   id String @id @default(uuid())
   fName String? 
-  LName String?
+  lName String?
+  url String? @default("https://res.cloudinary.com/dp1o87p4c/image/upload/v1758813658/chatApp/wyy1acz5wbt6m0woeccv.png")
   username String
   password String
-  role String
+  role ROLE
   districtId String?
   createdAt DateTime @default(now())
   updatedAt DateTime?

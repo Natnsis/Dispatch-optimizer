@@ -1,35 +1,27 @@
-import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import cors from "cors";
-import dotenv from "dotenv";
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import AuthRoutes from './routes/auth.routes';
 
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
 
+//middlewares
 app.use(cors());
 app.use(express.json());
 
+//routes
+app.use('/auth', AuthRoutes);
+
 // Health check
-app.get("/", (_req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res
     .status(200)
-    .json({ message: "✅ Server running with TypeScript + Prisma!" });
+    .json({ message: '✅ Server running with TypeScript + Prisma!' });
 });
 
-// GET /users
-app.get("/users", async (_req: Request, res: Response) => {
-  try {
-    const users = await prisma.user.findMany({ include: { posts: true } });
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch users" });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server ready at http://localhost:${PORT}`);
