@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient, ROLE } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { generateToken, setRefreshCookie } from '../middlewares/jwt.middleware';
 
 const prisma = new PrismaClient();
 
@@ -21,3 +22,21 @@ export const RegisterAdmin = async (req: Request, res: Response) => {
   }
 };
 
+export const LoginAdmin = async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+    const admin = await prisma.user.findUnique({ where: { username } });
+    if (admin) {
+      const verified = await bcrypt.compare(password, admin.password);
+      if (!verified) return res.json({ message: 'Invalid credentials' });
+      const data = { userId: admin.id, role: admin.role };
+      const { refreshToken, accessToken } = generateToken(data);
+      setRefreshCookie(res, refreshToken);
+      res.json({ accessToken: accessToken });
+    } else {
+      return res.json({ message: 'no such username found' });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};

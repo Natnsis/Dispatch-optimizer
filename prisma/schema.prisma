@@ -24,7 +24,7 @@ model User {
   fName String? 
   lName String?
   url String? @default("https://res.cloudinary.com/dp1o87p4c/image/upload/v1758813658/chatApp/wyy1acz5wbt6m0woeccv.png")
-  username String
+  username String @unique
   password String
   role ROLE
   districtId String?
