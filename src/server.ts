@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import AuthRoutes from './routes/auth.routes';
+import DispatcherRoutes from './routes/dispatcher.routes';
+import DistrictRoutes from './routes/district.routes';
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use(express.json());
 
 //routes
 app.use('/auth', AuthRoutes);
+app.use('/dispatcher', DispatcherRoutes);
+app.use('/district', DistrictRoutes);
 
 // Health check
 app.get('/', (_req: Request, res: Response) => {

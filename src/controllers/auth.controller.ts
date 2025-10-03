@@ -40,3 +40,16 @@ export const LoginAdmin = async (req: Request, res: Response) => {
     console.log(e);
   }
 };
+
+export const LogoutAdmin = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+    });
+
+    return res.status(200).json({ message: 'Logged out successfully' });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
