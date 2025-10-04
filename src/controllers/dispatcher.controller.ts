@@ -48,3 +48,25 @@ export const updataDispatcher = async (req: Request, res: Response) => {
     console.log(e);
   }
 };
+
+export const getAllDispatchers = async (req: Request, res: Response) => {
+  try {
+    const data = await prisma.user.findMany({
+      where: { role: 'Admin' },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.status(200).json(data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getDispatcher = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const data = await prisma.user.findFirst({ where: { id } });
+    res.status(200).json(data);
+  } catch (e) {
+    console.log(e);
+  }
+};
