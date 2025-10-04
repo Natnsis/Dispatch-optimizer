@@ -16,6 +16,7 @@ export const addDistrict = async (req: Request, res: Response) => {
     res.status(201).json({ message: 'district added successfully' });
   } catch (e) {
     console.log(e);
+    res.json({ message: 'error occured' });
   }
 };
 
@@ -24,6 +25,17 @@ export const deleteDistrict = async (req: Request, res: Response) => {
     const { id } = req.params;
     await prisma.district.delete({ where: { id } });
     res.status(200).json({ message: 'deleted successfully' });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getDistrict = async (req: Request, res: Response) => {
+  try {
+    const data = await prisma.district.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    res.status(200).json(data);
   } catch (e) {
     console.log(e);
   }
