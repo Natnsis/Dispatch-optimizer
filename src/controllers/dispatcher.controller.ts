@@ -21,7 +21,7 @@ export const addDispatcher = async (req: Request, res: Response) => {
     });
     res.status(201).json({ message: 'dispatcher created successfully' });
   } catch (e) {
-    console.log(e);
+    res.json(e);
   }
 };
 
@@ -52,7 +52,7 @@ export const updataDispatcher = async (req: Request, res: Response) => {
 export const getAllDispatchers = async (req: Request, res: Response) => {
   try {
     const data = await prisma.user.findMany({
-      where: { role: 'Admin' },
+      where: { role: 'Dispatcher' },
       orderBy: { createdAt: 'desc' },
     });
     res.status(200).json(data);

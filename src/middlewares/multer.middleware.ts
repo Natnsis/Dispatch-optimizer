@@ -1,10 +1,8 @@
-import { rejects } from 'assert';
 import { v2 as cloudinary } from 'cloudinary';
-import { resolve } from 'path';
 import streamifier from 'streamifier';
 
 export const imageUploader = (bufferImage: Buffer): Promise<any> => {
-  return new Promise((reject, resolve) => {
+  return new Promise((resolve, reject) => {
     const image = cloudinary.uploader.upload_stream(
       {
         folder: 'Traffic_Project',

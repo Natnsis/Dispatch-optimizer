@@ -10,7 +10,12 @@ import {
 } from '../controllers/dispatcher.controller';
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+});
 
 router.post('/', upload.single('image'), addDispatcher);
 router.delete('/:id', deleteDispatcher);

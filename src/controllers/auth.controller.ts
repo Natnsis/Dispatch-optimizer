@@ -41,7 +41,7 @@ export const LoginAdmin = async (req: Request, res: Response) => {
   }
 };
 
-export const LogoutAdmin = async (req: Request, res: Response) => {
+export const Logout = async (req: Request, res: Response) => {
   try {
     res.clearCookie('refreshToken', {
       httpOnly: true,
@@ -51,5 +51,23 @@ export const LogoutAdmin = async (req: Request, res: Response) => {
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const LoginDispatcher = async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+    const dispatcher = await prisma.user.findUnique({
+      where: { username, role: ROLE.Dispatcher },
+    });
+    if (!dispatcher) return res.json('username not found');
+    const Varify = await bcrypt.compare(password, dispatcher.password);
+    if (!Varify) return res.json('incorrect password');
+    const data = { userId: dispatcher.id, role: dispatcher.role };
+    const { refreshToken, accessToken } = generateToken(data);
+    setRefreshCookie(res, refreshToken);
+    res.json({ accessToken: accessToken });
+  } catch (e) {
+    return res.status(500).json('unable to login');
   }
 };
